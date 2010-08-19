@@ -1349,7 +1349,7 @@ class xPDO {
      */
     protected function _log($level, $msg, $target= '', $def= '', $file= '', $line= '') {
         if (empty ($target)) {
-            $target =& $this->logTarget;
+            $target = $this->logTarget;
         }
         $targetOptions = array();
         if (is_array($target)) {
