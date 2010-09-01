@@ -423,9 +423,24 @@ abstract class xPDOQuery extends xPDOCriteria {
 
     public function hydrateGraphParent(& $instances, $row) {
         $hydrated = false;
-        if ($instance= $this->xpdo->newObject($this->_class)) {
+        $rowPrefix = '';
+        $className = $this->getClass();
+        $actualClass = $className;
+        $alias = $this->getAlias();
+        if (isset ($row[$className . '_class_key'])) {
+            $actualClass= $row[$className . '_class_key'];
+            $rowPrefix= $className . '_';
+        }
+        elseif (isset ($row[$alias . '_class_key'])) {
+            $actualClass= $row[$alias . '_class_key'];
+            $rowPrefix= $alias . '_';
+        }
+        elseif (isset ($row['class_key'])) {
+            $actualClass= $row['class_key'];
+        }
+        if ($instance= $this->xpdo->newObject($actualClass)) {
             $instance->_lazy= array_keys($instance->_fields);
-            $instance->fromArray($row, $this->_alias . '_', true, true);
+            $instance->fromArray($row, $alias . '_', true, true);
             $pk= $instance->getPrimaryKey();
             if (is_array($pk)) $pk= implode('-', $pk);
             if (isset ($instances[$pk])) {
