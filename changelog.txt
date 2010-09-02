@@ -2,6 +2,8 @@ This file shows the changes in this release of xPDO.
 
 xPDO 2.0.0-rc2
 ====================================
+- [#XPDO-68] fix incorrect return value from xPDO::_loadClass in some circumstances
+- [#XPDO-64] Fix non-default log settings changing after first call to _log()
 - [#XPDO-66] Add xPDOTransport::ARCHIVE_WITH to allow explicit use of PclZip even if ZipArchive exists
 - Add xPDO::literal() method for SQL literal strings
 - Introduce pdo_sqlite driver support

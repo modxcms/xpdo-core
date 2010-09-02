@@ -467,11 +467,14 @@ class xPDO {
         }
         if ($class && !$transient && !isset ($this->map[$class])) {
             $mapfile= strtr($fqn, '.', '/') . '.map.inc.php';
+            $rt = false;
             if (file_exists($path . $mapfile)) {
-            $xpdo_meta_map= & $this->map;
-            if (!$rt= include ($path . $mapfile)) {
-                    $this->log(xPDO::LOG_LEVEL_WARN, "Could not load metadata map {$mapfile} for class {$class} from {$fqn}");
-                }
+                $xpdo_meta_map= & $this->map;
+                $rt= include ($path . $mapfile);
+            }
+            if(!$rt) {
+                $this->log(xPDO::LOG_LEVEL_WARN, "Could not load metadata map {$mapfile} for class {$class} from {$fqn}");
+                $class = false;
             }
         }
         return $class;
